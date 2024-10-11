@@ -20,4 +20,5 @@ Este proyecto es parte de un reto técnico para Deal Engine. Genera un informe d
     ```bash
     docker-compose up -d
 4. Revisa el acceso a la base de datos con mongodb compass
+    ```bash
     Uri de conexión: mongodb://admin:12345@localhost:27017
