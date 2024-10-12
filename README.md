@@ -24,9 +24,14 @@ Este proyecto es parte de un reto técnico para Deal Engine. Genera un informe d
     Uri de conexión: mongodb://mongoadmin:mongoadmin@localhost:27017
 5. Importar dataset a mongodb
     ```bash
-    - Descarga e instalar el comand line tools de mongodb: https://www.mongodb.com/try/download/database-tools
-    - Copiar el siguiente path en variables de entorno: "C:\Program Files\MongoDB\Tools\100\bin"
-    - Ejecuta el siguiente comando para importar el dataset: "mongoimport --host localhost --port 27017 --db ticketsDB --collection tickets --type csv --file dataset.csv --headerline --username mongoadmin --password mongoadmin --authenticationDatabase admin"
-    - Results: "connected to: mongodb://localhost:27017/, 3000 document(s) imported successfully. 0 document(s) failed to import."
+6. Descarga e instalar el comand line tools de mongodb
+    ```bash
+    https://www.mongodb.com/try/download/database-tools
+7. Copiar el siguiente path en variables de entorno
+    ```bash
+    "C:\Program Files\MongoDB\Tools\100\bin"
+8. Ejecuta el siguiente comando para importar el dataset
+    ```bash
+    mongoimport --host localhost --port 27017 --db ticketsDB --collection tickets --type csv --file dataset.csv --headerline --username mongoadmin --password mongoadmin --authenticationDatabase admin
 
     
