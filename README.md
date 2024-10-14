@@ -21,7 +21,7 @@ Este proyecto es parte de un reto técnico para Deal Engine. Genera un informe d
     docker-compose up -d
 4. Revisa el acceso a la base de datos con mongodb compass
     ```bash
-    Uri de conexión: mongodb://mongoadmin:mongoadmin@localhost:27017
+    Uri de conexión: mongodb://localhost:27017/ticketsDB
 5. Importar dataset a mongodb
     ```bash
 6. Descarga e instalar el comand line tools de mongodb
@@ -30,8 +30,8 @@ Este proyecto es parte de un reto técnico para Deal Engine. Genera un informe d
 7. Copiar el siguiente path en variables de entorno
     ```bash
     "C:\Program Files\MongoDB\Tools\100\bin"
-8. Ejecuta el siguiente comando para importar el dataset
+8. Importar el dataset
     ```bash
-    mongoimport --host localhost --port 27017 --db ticketsDB --collection tickets --type csv --file dataset.csv --headerline --username mongoadmin --password mongoadmin --authenticationDatabase admin
+    crea una colección llamada tickets en ticketsDB e importa el dataset.csv en la colección
 
     
