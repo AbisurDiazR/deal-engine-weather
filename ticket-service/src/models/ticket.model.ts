@@ -1,19 +1,50 @@
 import { Schema, model } from 'mongoose';
 
 const ticketSchema = new Schema({
-    origin: String,
-    destination: String,
-    airline: String,
-    flight_num: Number,
-    origin_iata_code: String,
-    origin_name: String,
-    origin_latitude: Number,
-    origin_longitude: Number,
-    destination_iata_code: String,
-    destination_name: String,
-    destination_latitude: Number,
-    destination_longitude: Number
+    flight_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Flight', // Relación con la colección flights
+        required: true
+    },
+    passenger_name: {
+        type: String,
+        required: true
+    },
+    passenger_email: {
+        type: String,
+        required: true
+    },
+    seat_number: {
+        type: String,
+        required: false // Campo opcional
+    },
+    ticket_price: {
+        type: Number,
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ['Reserved', 'Cancelled', 'Paid', 'Completed'],
+        default: 'Reserved'
+    },
+    payment_method: {
+        type: String,
+        required: true
+    },
+    booking_reference: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    created_at: {
+        type: Date,
+        default: Date.now
+    },
+    updated_at: {
+        type: Date,
+        default: Date.now
+    }
 });
 
-const Ticket = model('tickets', ticketSchema);
+const Ticket = model('Ticket', ticketSchema);
 export default Ticket;

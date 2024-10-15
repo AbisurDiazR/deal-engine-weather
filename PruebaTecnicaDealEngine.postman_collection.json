@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "94d2583f-7b7a-403c-89a7-8b4ca9c949f2",
+		"name": "PruebaTecnicaDealEngine",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7577914"
+	},
+	"item": [
+		{
+			"name": "Weather",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://api.weatherstack.com/current?access_key=2c7d64256647558f08702d211d5f4934&query=40.714, -74.006",
+					"protocol": "http",
+					"host": [
+						"api",
+						"weatherstack",
+						"com"
+					],
+					"path": [
+						"current"
+					],
+					"query": [
+						{
+							"key": "access_key",
+							"value": "2c7d64256647558f08702d211d5f4934"
+						},
+						{
+							"key": "query",
+							"value": "40.714, -74.006"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetTickets",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/tickets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"tickets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateTicket",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"origin\": \"John F. Kennedy International Airport\",\r\n  \"destination\": \"Los Angeles International Airport\",\r\n  \"airline\": \"Delta Air Lines\",\r\n  \"flight_num\": 456,\r\n  \"origin_iata_code\": \"JFK\",\r\n  \"origin_name\": \"John F. Kennedy International Airport\",\r\n  \"origin_latitude\": 40.6413,\r\n  \"origin_longitude\": -73.7781,\r\n  \"destination_iata_code\": \"LAX\",\r\n  \"destination_name\": \"Los Angeles International Airport\",\r\n  \"destination_latitude\": 33.9416,\r\n  \"destination_longitude\": -118.4085\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/tickets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"tickets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetFlights",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/flights",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"flights"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
