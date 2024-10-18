@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather CSV Upload</title>
+</head>
+
+<body>
+    <h1>Sube un archivo CSV para consultar el clima</h1>
+    <form id="csv-form">
+        <input type="file" id="csvFile" accept=".csv" required />
+        <button type="submit">Subir y Consultar</button>
+    </form>
+
+    <h2>Resultados:</h2>
+    <pre id="error"></pre>
+    <pre id="results"></pre>
+
+    <script>
+        document.getElementById('csv-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const fileInput = document.getElementById('csvFile');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Por favor, sube un archivo CSV.');
+                return;
+            }
+
+            const reader = new FileReader();
+            
+            // Mostrar los resultados en un formato legible
+            reader.onload = async function (e) {
+                const text = e.target.result;
+                const rows = text.split('\n').slice(1); // Salta el encabezado del CSV
+                const results = [];
+
+                for (const row of rows) {
+                    if (row.trim() !== '') {
+                        const dataset = row.split(',');
+
+                        try {
+                            const originResponse = await fetch('/api/weather-report', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    destination_latitude: dataset[10].trim(),
+                                    destination_longitude: dataset[11].trim(),
+                                }),
+                            });
+
+                            if (originResponse.status === 429) {
+                                document.getElementById('error').textContent = "Limite de consultas mensuales alcanzado";
+                                break;
+                            }
+
+                            const originData = await originResponse.json();
+
+                            // Formatear los datos del clima para mostrar de manera más legible
+                            const originWeather = `
+                    Clima en ${originData.name} (${originData.coord.lat}, ${originData.coord.lon}):
+                    - Estado del cielo: ${originData.weather[0].description}
+                    - Temperatura: ${originData.main.temp}°K (se siente como ${originData.main.feels_like}°K)
+                    - Mínima: ${originData.main.temp_min}°K, Máxima: ${originData.main.temp_max}°K
+                    - Humedad: ${originData.main.humidity}%
+                    - Presión: ${originData.main.pressure} hPa
+                    - Velocidad del viento: ${originData.wind.speed} m/s
+                    - Visibilidad: ${originData.visibility} metros
+                    - Amanecer: ${new Date(originData.sys.sunrise * 1000).toLocaleTimeString()}
+                    - Atardecer: ${new Date(originData.sys.sunset * 1000).toLocaleTimeString()}
+                `;
+
+                            const response = await fetch('/api/weather-report', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    destination_latitude: dataset[10].trim(),
+                                    destination_longitude: dataset[11].trim(),
+                                }),
+                            });
+
+                            if (response.status === 429) {
+                                alert('Demasiadas solicitudes. Deteniendo las consultas.');
+                                break;
+                            }
+
+                            const data = await response.json();
+
+                            // Formatear los datos del clima para mostrar de manera más legible
+                            const weatherInfo = `
+                    Clima en ${data.name} (${data.coord.lat}, ${data.coord.lon}):
+                    - Estado del cielo: ${data.weather[0].description}
+                    - Temperatura: ${data.main.temp}°K (se siente como ${data.main.feels_like}°K)
+                    - Mínima: ${data.main.temp_min}°K, Máxima: ${data.main.temp_max}°K
+                    - Humedad: ${data.main.humidity}%
+                    - Presión: ${data.main.pressure} hPa
+                    - Velocidad del viento: ${data.wind.speed} m/s
+                    - Visibilidad: ${data.visibility} metros
+                    - Amanecer: ${new Date(data.sys.sunrise * 1000).toLocaleTimeString()}
+                    - Atardecer: ${new Date(data.sys.sunset * 1000).toLocaleTimeString()}
+                `;
+
+                            results.push({
+                                origen: dataset[5],
+                                weatherOrigin: originWeather,
+                                destino: dataset[9],
+                                weather: weatherInfo,
+                            });
+
+                        } catch (err) {
+                            console.error('Error en la consulta del clima:', err);
+                        }
+                    }
+                }
+
+                // Mostrar los resultados de forma legible
+                document.getElementById('results').textContent = results.map(result => `Origen: ${result.origen} Clima:  ${result.weatherOrigin} Destino: ${result.destino} Clima:  ${result.weather}`).join('\n\n');
+            };
+
+            reader.readAsText(file);
+
+
+            reader.readAsText(file);
+        });
+    </script>
+</body>
+
+</html>
